@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="İNCİ OTOMOTİV KAYSERİ — Premium ikinci el araç galerisi. Bu şehrin markası İNCİ.">
+  <title>İNCİ OTOMOTİV KAYSERİ | Bu Şehrin Markası</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0A0A0A;
+      --bg-secondary: #111111;
+      --bg-card: #141414;
+      --border: #222222;
+      --gold: #C9A84C;
+      --gold-light: #E8C96E;
+      --text-primary: #F5F5F0;
+      --text-secondary: #8A8A7A;
+      --text-muted: #4A4A42;
+      --nav-height: 72px;
+      --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+      overflow-x: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ——— Navigation ——— */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(24px, 5vw, 80px);
+      transition: background var(--transition), backdrop-filter var(--transition), border-color var(--transition);
+      border-bottom: 1px solid transparent;
+    }
+
+    .nav.scrolled {
+      background: rgba(13, 13, 13, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom-color: var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: clamp(24px, 4vw, 48px);
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .nav-toggle.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .nav-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: var(--bg-primary);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .nav-overlay.open {
+      display: flex;
+    }
+
+    .nav-overlay a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-overlay a:hover {
+      color: var(--gold);
+    }
+
+    /* ——— Hero ——— */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--nav-height) 24px 80px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(10, 10, 10, 0.4) 0%, rgba(10, 10, 10, 0.85) 50%, var(--bg-primary) 100%),
+        url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1920&q=80') center/cover no-repeat;
+      z-index: 0;
+    }
+
+    .hero-grain {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      opacity: 0.35;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: radial-gradient(ellipse at 50% 30%, rgba(201, 168, 76, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+
+    .hero-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 10vw, 6rem);
+      font-weight: 300;
+      letter-spacing: -1px;
+      color: var(--gold);
+      line-height: 1.1;
+      opacity: 0;
+      animation: fadeIn 1.2s ease forwards;
+    }
+
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-top: 12px;
+      opacity: 0;
+      animation: slideUp 0.9s ease 0.4s forwards;
+    }
+
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-top: 28px;
+      opacity: 0;
+      animation: slideUp 0.9s ease 0.65s forwards;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      margin-top: 48px;
+      padding: 16px 40px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+      opacity: 0;
+      animation: slideUp 0.9s ease 0.9s forwards;
+    }
+
+    .hero-cta:hover {
+      background: rgba(201, 168, 76, 0.1);
+      box-shadow: 0 0 24px rgba(201, 168, 76, 0.2);
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(180deg, var(--gold), transparent);
+      animation: pulseScroll 2s ease-in-out infinite;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulseScroll {
+      0%, 100% { opacity: 0.4; transform: translateX(-50%) scaleY(0.6); }
+      50% { opacity: 1; transform: translateX(-50%) scaleY(1); }
+    }
+
+    /* ——— Stats ——— */
+    .stats {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: clamp(40px, 6vw, 64px) clamp(24px, 5vw, 80px);
+    }
+
+    .stats-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .stat-item {
+      flex: 1 1 180px;
+      text-align: center;
+      padding: 16px 24px;
+      position: relative;
+    }
+
+    .stat-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 48px;
+      background: var(--border);
+    }
+
+    .stat-number {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-label {
+      display: block;
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    /* ——— Sections common ——— */
+    section {
+      padding: clamp(64px, 10vw, 120px) clamp(24px, 5vw, 80px);
+    }
+
+    .section-header {
+      margin-bottom: clamp(40px, 6vw, 64px);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 600;
+      color: var(--text-primary);
+      position: relative;
+      display: inline-block;
+      padding-bottom: 16px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 64px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    /* ——— Vehicles ——— */
+    .vehicles {
+      background: var(--bg-primary);
+    }
+
+    .vehicles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+
+    .vehicle-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+      opacity: 0;
+      transform: translateY(32px);
+    }
+
+    .vehicle-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.7s ease, transform 0.7s ease, border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .vehicle-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(201, 168, 76, 0.3);
+    }
+
+    .vehicle-card.visible:hover {
+      transform: translateY(-4px);
+    }
+
+    .vehicle-image-wrap {
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+      background: var(--bg-secondary);
+    }
+
+    .vehicle-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .vehicle-card:hover .vehicle-image-wrap img {
+      transform: scale(1.05);
+    }
+
+    .vehicle-body {
+      padding: 24px;
+    }
+
+    .vehicle-title {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--gold);
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .vehicle-meta {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .vehicle-price {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+
+    .vehicle-link {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: var(--gold);
+      transition: color 0.3s, letter-spacing 0.3s;
+    }
+
+    .vehicle-link:hover {
+      color: var(--gold-light);
+      letter-spacing: 2px;
+    }
+
+    /* ——— About ——— */
+    .about {
+      background: var(--bg-primary);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 8vw, 80px);
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .about-text {
+      position: relative;
+    }
+
+    .about-quote {
+      position: absolute;
+      top: -20px;
+      left: -8px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 120px;
+      line-height: 1;
+      color: var(--gold);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .about-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 600;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-body p {
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      font-size: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-visual {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      max-height: 560px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .about-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .about-badge {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      right: 24px;
+      padding: 20px;
+      background: rgba(10, 10, 10, 0.85);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .about-badge span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+    }
+
+    /* ——— Instagram ——— */
+    .instagram {
+      background: var(--bg-secondary);
+    }
+
+    .instagram-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .instagram-sub {
+      font-size: 14px;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+    }
+
+    .instagram-masonry {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: repeat(2, 180px);
+      gap: 12px;
+      max-width: 1200px;
+      margin: 0 auto 48px;
+    }
+
+    .ig-tile {
+      display: block;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      position: relative;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .ig-tile:hover {
+      border-color: var(--gold);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .ig-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .ig-tile:hover img {
+      transform: scale(1.08);
+    }
+
+    .ig-tile:nth-child(1) {
+      grid-column: span 2;
+      grid-row: span 2;
+      margin-top: 0;
+    }
+
+    .ig-tile:nth-child(2) {
+      grid-column: span 2;
+      margin-top: -16px;
+    }
+
+    .ig-tile:nth-child(3) {
+      margin-top: 24px;
+    }
+
+    .ig-tile:nth-child(4) {
+      margin-top: -8px;
+    }
+
+    .ig-tile:nth-child(5) {
+      grid-column: span 2;
+      margin-top: 12px;
+    }
+
+    .ig-tile:nth-child(6) {
+      margin-top: -20px;
+    }
+
+    .btn-gold {
+      display: inline-block;
+      padding: 16px 36px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--bg-primary);
+      background: var(--gold);
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .btn-gold:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .instagram-cta-wrap {
+      text-align: center;
+    }
+
+    /* ——— Contact ——— */
+    .contact {
+      background: var(--bg-primary);
+      padding-bottom: 0;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .contact-list {
+      list-style: none;
+    }
+
+    .contact-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 28px;
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+
+    .contact-list li strong,
+    .contact-list a {
+      color: var(--text-primary);
+      transition: color 0.3s;
+    }
+
+    .contact-list a:hover {
+      color: var(--gold);
+    }
+
+    .contact-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      width: 28px;
+      text-align: center;
+    }
+
+    .contact-cta {
+      display: inline-block;
+      margin-top: 32px;
+      padding: 14px 28px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      transition: background 0.3s;
+    }
+
+    .contact-cta:hover {
+      background: rgba(201, 168, 76, 0.1);
+    }
+
+    .map-wrap {
+      min-height: 360px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .map-wrap iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      border: 0;
+      filter: grayscale(80%) contrast(1.1) brightness(0.85);
+    }
+
+    /* ——— Footer ——— */
+    footer {
+      padding: 32px clamp(24px, 5vw, 80px);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      background: var(--bg-secondary);
+    }
+
+    footer p {
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+    }
+
+    footer .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      color: var(--gold);
+      margin-top: 8px;
+      letter-spacing: 0.15em;
+    }
+
+    /* ——— Responsive ——— */
+    @media (max-width: 1024px) {
+      .vehicles-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .instagram-masonry {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 140px);
+      }
+
+      .ig-tile:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+
+      .ig-tile:nth-child(n) {
+        margin-top: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .stat-item:not(:last-child)::after {
+        display: none;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+
+      .vehicles-grid {
+        display: flex;
+        grid-template-columns: unset;
+        gap: 20px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 16px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: var(--border) transparent;
+      }
+
+      .vehicles-grid .vehicle-card {
+        flex: 0 0 85%;
+        max-width: 340px;
+        scroll-snap-align: center;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-visual {
+        order: -1;
+        max-height: 400px;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .instagram-masonry {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+      }
+
+      .ig-tile:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 1;
+        min-height: 200px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .hero-logo {
+        font-size: 2.75rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav" id="nav">
+    <a href="#" class="nav-logo">İNCİ</a>
+    <ul class="nav-links">
+      <li><a href="#araclar">Araçlar</a></li>
+      <li><a href="#hakkimizda">Hakkımızda</a></li>
+      <li><a href="#instagram">Instagram</a></li>
+      <li><a href="#iletisim">İletişim</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menü">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <nav class="nav-overlay" id="navOverlay" aria-hidden="true">
+    <a href="#araclar" class="overlay-link">Araçlar</a>
+    <a href="#hakkimizda" class="overlay-link">Hakkımızda</a>
+    <a href="#instagram" class="overlay-link">Instagram</a>
+    <a href="#iletisim" class="overlay-link">İletişim</a>
+  </nav>
+
+  <section class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-grain" aria-hidden="true"></div>
+    <div class="hero-particles" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1 class="hero-logo">İNCİ</h1>
+      <p class="hero-sub">Otomotiv Kayseri</p>
+      <p class="hero-tagline">Bu Şehrin Markası İNCİ</p>
+      <a href="#araclar" class="hero-cta">Araçları İncele</a>
+    </div>
+    <div class="scroll-indicator" aria-hidden="true"></div>
+  </section>
+
+  <div class="stats" id="stats">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-number" data-target="614" data-suffix="K">0</span>
+        <span class="stat-label">Instagram Takipçisi</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="43" data-suffix="">0</span>
+        <span class="stat-label">Aktif İlan</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="10" data-suffix="+">0</span>
+        <span class="stat-label">Yıllık Deneyim</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="100" data-suffix="%">0</span>
+        <span class="stat-label">Müşteri Memnuniyeti</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="vehicles" id="araclar">
+    <div class="section-header">
+      <h2 class="section-title">Öne Çıkan Araçlar</h2>
+    </div>
+    <div class="vehicles-grid" id="vehiclesGrid">
+      <article class="vehicle-card">
+        <div class="vehicle-image-wrap">
+          <img src="assets/vehicles/mercedes-c200.jpg" alt="2024 Mercedes-Benz C200 AMG" loading="lazy" width="800" height="500">
+        </div>
+        <div class="vehicle-body">
+          <h3 class="vehicle-title">2024 Mercedes-Benz C200 AMG 4MATIC</h3>
+          <p class="vehicle-meta">9G-Tronic · Füme · 46.000 km · Boyasız Hatasız</p>
+          <p class="vehicle-price">4.395.000 TL</p>
+          <a href="https://www.sahibinden.com/ilan/vasita-otomobil-mercedes-benz-inci-den-2024-c200-amg-4-matic-9g-tronic-boyasiz-hatasiz-1317108703/detay" class="vehicle-link" target="_blank" rel="noopener">İncele →</a>
+        </div>
+      </article>
+      <article class="vehicle-card">
+        <div class="vehicle-image-wrap">
+          <img src="assets/vehicles/bmw-740d.jpg" alt="2018 BMW 740d xDrive Long" loading="lazy" width="800" height="500">
+        </div>
+        <div class="vehicle-body">
+          <h3 class="vehicle-title">2018 BMW 740d xDrive Long M Excellence</h3>
+          <p class="vehicle-meta">114.000 km · Siyah · M Excellence</p>
+          <p class="vehicle-price">4.950.000 TL</p>
+          <a href="https://www.sahibinden.com/ilan/vasita-otomobil-bmw-inci-den-2018-bmw-740d-xdrive-long-m-excellence-114.000-km-de-1316952669/detay" class="vehicle-link" target="_blank" rel="noopener">İncele →</a>
+        </div>
+      </article>
+      <article class="vehicle-card">
+        <div class="vehicle-image-wrap">
+          <img src="assets/vehicles/bmw-525d.jpg" alt="2015 BMW 525d xDrive" loading="lazy" width="800" height="500">
+        </div>
+        <div class="vehicle-body">
+          <h3 class="vehicle-title">2015 BMW 525d xDrive Executive M Sport</h3>
+          <p class="vehicle-meta">276.000 km · Beyaz · İçi Taba · Bakımlı</p>
+          <p class="vehicle-price">1.875.000 TL</p>
+          <a href="https://www.sahibinden.com/ilan/vasita-otomobil-bmw-inci-den-2015-bmw-525d-xdrive-executive-m-sport-ici-taba-bakimli-1318354871/detay" class="vehicle-link" target="_blank" rel="noopener">İncele →</a>
+        </div>
+      </article>
+      <article class="vehicle-card">
+        <div class="vehicle-image-wrap">
+          <img src="assets/vehicles/porsche-cayenne.jpg" alt="2013 Porsche Cayenne 3.0D" loading="lazy" width="800" height="500">
+        </div>
+        <div class="vehicle-body">
+          <h3 class="vehicle-title">2013 Porsche Cayenne 3.0D Platinium</h3>
+          <p class="vehicle-meta">215.000 km · Boyasız · Vergi Barışlı</p>
+          <p class="vehicle-price">3.550.000 TL</p>
+          <a href="https://www.sahibinden.com/ilan/vasita-arazi-suv-pickup-porsche-inci-den-2013-cayenne-3.0d-platinium-boyasiz-vergi-barisli-1315225864/detay" class="vehicle-link" target="_blank" rel="noopener">İncele →</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="about" id="hakkimizda">
+    <div class="about-grid">
+      <div class="about-text">
+        <span class="about-quote" aria-hidden="true">"</span>
+        <h2 class="about-heading">Bu Şehrin Markası</h2>
+        <div class="about-body">
+          <p>İNCİ OTOMOTİV KAYSERİ, premium ikinci el segmentinde güvenin ve seçkinliğin adresi. Yıllardır Kayseri'de binlerce ailenin yol arkadaşı olan markamız, her aracı titizlikle seçer ve sunar.</p>
+          <p>614 binden fazla Instagram takipçisiyle Türkiye'nin en güvenilen galeri hesaplarından biri olan @2.elde1.inci, şeffaflık ve müşteri memnuniyetini ön planda tutar. Sedan'dan SUV'a, her segmentte EMSALSİZ araçlar.</p>
+          <p>Premium Galeri deneyimi — sıradan bir 2.el sitesi değil, bir marka hikayesi.</p>
+        </div>
+      </div>
+      <div class="about-visual">
+        <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80" alt="İNCİ Otomotiv showroom" loading="lazy" width="800" height="1000">
+        <div class="about-badge">
+          <span>2. elde 1. İNCİ</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="instagram" id="instagram">
+    <div class="instagram-header">
+      <div>
+        <h2 class="section-title">@2.elde1.inci</h2>
+        <p class="instagram-sub">614K Takipçi · Günlük içerik ve satış hikayeleri</p>
+      </div>
+    </div>
+    <div class="instagram-masonry">
+      <a href="https://www.instagram.com/p/DXpBVMHiPmW/" class="ig-tile" target="_blank" rel="noopener" aria-label="Instagram gönderisi"><img src="assets/instagram/post-1.jpg" alt="2.elde1.inci Instagram" loading="lazy" width="640" height="640"></a>
+      <a href="https://www.instagram.com/p/DPqTwApCMBf/" class="ig-tile" target="_blank" rel="noopener" aria-label="Instagram gönderisi"><img src="assets/instagram/post-2.jpg" alt="2.elde1.inci Instagram" loading="lazy" width="640" height="640"></a>
+      <a href="https://www.instagram.com/p/DOS-XIGiPrt/" class="ig-tile" target="_blank" rel="noopener" aria-label="Instagram gönderisi"><img src="assets/instagram/post-3.jpg" alt="2.elde1.inci Instagram" loading="lazy" width="640" height="640"></a>
+      <a href="https://www.instagram.com/p/DZAKAIGoX1z/" class="ig-tile" target="_blank" rel="noopener" aria-label="Instagram gönderisi"><img src="assets/instagram/post-4.jpg" alt="2.elde1.inci Instagram" loading="lazy" width="640" height="640"></a>
+      <a href="https://www.instagram.com/p/DY-CRxLofmb/" class="ig-tile" target="_blank" rel="noopener" aria-label="Instagram gönderisi"><img src="assets/instagram/post-5.jpg" alt="2.elde1.inci Instagram" loading="lazy" width="640" height="640"></a>
+      <a href="https://www.instagram.com/p/DY7Vor4oTTu/" class="ig-tile" target="_blank" rel="noopener" aria-label="Instagram gönderisi"><img src="assets/instagram/post-6.jpg" alt="2.elde1.inci Instagram" loading="lazy" width="640" height="640"></a>
+    </div>
+    <div class="instagram-cta-wrap">
+      <a href="https://instagram.com/2.elde1.inci" class="btn-gold" target="_blank" rel="noopener">Instagram'da Takip Et</a>
+    </div>
+  </section>
+
+  <section class="contact" id="iletisim">
+    <div class="section-header">
+      <h2 class="section-title">İletişim</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <ul class="contact-list">
+          <li>
+            <span class="contact-icon" aria-hidden="true">📞</span>
+            <span><a href="tel:+905557539525"><strong>+90 555 753 95 25</strong></a> — KEREMCAN</span>
+          </li>
+          <li>
+            <span class="contact-icon" aria-hidden="true">📍</span>
+            <span>Yıldızevler Mah. 320. Sok, Kayseri 38125</span>
+          </li>
+          <li>
+            <span class="contact-icon" aria-hidden="true">📸</span>
+            <span><a href="https://instagram.com/2.elde1.inci" target="_blank" rel="noopener">@2.elde1.inci</a></span>
+          </li>
+          <li>
+            <span class="contact-icon" aria-hidden="true">🌐</span>
+            <span><a href="https://inciotomotivkayseri.sahibinden.com" target="_blank" rel="noopener">inciotomotivkayseri.sahibinden.com</a></span>
+          </li>
+        </ul>
+        <a href="https://inciotomotivkayseri.sahibinden.com" class="contact-cta" target="_blank" rel="noopener">Sahibinden'de Tüm İlanlarımız →</a>
+      </div>
+      <div class="map-wrap">
+        <iframe
+          title="İNCİ Otomotiv Kayseri konum"
+          src="https://maps.google.com/maps?q=Y%C4%B1ld%C4%B1zevler+Mah.+320.+Sok,+Kayseri,+38125&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 İNCİ OTOMOTİV KAYSERİ. Tüm hakları saklıdır.</p>
+    <p class="footer-brand">Bu şehrin markası İNCİ</p>
+  </footer>
+
+  <script>
+    (function () {
+      const nav = document.getElementById('nav');
+      const navToggle = document.getElementById('navToggle');
+      const navOverlay = document.getElementById('navOverlay');
+      const overlayLinks = navOverlay.querySelectorAll('.overlay-link');
+
+      function onScroll() {
+        nav.classList.toggle('scrolled', window.scrollY > 40);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      navToggle.addEventListener('click', function () {
+        navToggle.classList.toggle('active');
+        navOverlay.classList.toggle('open');
+        navOverlay.setAttribute('aria-hidden', !navOverlay.classList.contains('open'));
+        document.body.style.overflow = navOverlay.classList.contains('open') ? 'hidden' : '';
+      });
+
+      overlayLinks.forEach(function (link) {
+        link.addEventListener('click', function () {
+          navToggle.classList.remove('active');
+          navOverlay.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      });
+
+      const statNumbers = document.querySelectorAll('.stat-number');
+      let statsAnimated = false;
+
+      function animateValue(el, target, suffix, duration) {
+        const start = performance.now();
+        const isDecimal = target % 1 !== 0;
+        function step(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.floor(eased * target);
+          el.textContent = current + suffix;
+          if (progress < 1) requestAnimationFrame(step);
+          else el.textContent = target + suffix;
+        }
+        requestAnimationFrame(step);
+      }
+
+      const statsObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting || statsAnimated) return;
+          statsAnimated = true;
+          statNumbers.forEach(function (el) {
+            const target = parseInt(el.dataset.target, 10);
+            const suffix = el.dataset.suffix || '';
+            animateValue(el, target, suffix, 1800);
+          });
+        });
+      }, { threshold: 0.4 });
+      statsObserver.observe(document.getElementById('stats'));
+
+      const vehicleCards = document.querySelectorAll('.vehicle-card');
+      const cardObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            cardObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+      vehicleCards.forEach(function (card, i) {
+        card.style.transitionDelay = (i * 0.12) + 's';
+        cardObserver.observe(card);
+      });
+    })();
+  </script>
+</body>
+</html>
