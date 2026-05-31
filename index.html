@@ -30,7 +30,15 @@
     }
 
     html {
-      scroll-behavior: smooth;
+      scroll-behavior: auto;
+    }
+
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
     }
 
     body {
@@ -70,10 +78,11 @@
     }
 
     .nav.scrolled {
-      background: rgba(13, 13, 13, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom-color: var(--border);
+      background: rgba(13, 13, 13, 0.75);
+      backdrop-filter: blur(20px) saturate(1.2);
+      -webkit-backdrop-filter: blur(20px) saturate(1.2);
+      border-bottom-color: rgba(201, 168, 76, 0.15);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
     }
 
     .nav-logo {
@@ -174,13 +183,57 @@
       overflow: hidden;
     }
 
-    .hero-bg {
+    .hero-media {
+      position: absolute;
+      inset: -8%;
+      z-index: 0;
+      will-change: transform;
+    }
+
+    .hero-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.08);
+    }
+
+    .hero-media-fallback {
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(180deg, rgba(10, 10, 10, 0.4) 0%, rgba(10, 10, 10, 0.85) 50%, var(--bg-primary) 100%),
         url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1920&q=80') center/cover no-repeat;
-      z-index: 0;
+      z-index: -1;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0.35) 40%, rgba(10, 10, 10, 0.92) 85%, var(--bg-primary) 100%),
+        radial-gradient(ellipse at 50% 20%, rgba(201, 168, 76, 0.12) 0%, transparent 55%);
+      z-index: 1;
+    }
+
+    .hero-blur-orb {
+      position: absolute;
+      width: 40vw;
+      height: 40vw;
+      max-width: 480px;
+      max-height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.15) 0%, transparent 70%);
+      filter: blur(60px);
+      z-index: 1;
+      pointer-events: none;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: orbFloat 8s ease-in-out infinite;
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
+      50% { opacity: 0.85; transform: translateX(-50%) translateY(-20px); }
     }
 
     .hero-grain {
@@ -207,6 +260,14 @@
       max-width: 900px;
     }
 
+    .hero-logo,
+    .hero-sub,
+    .hero-tagline,
+    .hero-cta,
+    .scroll-indicator {
+      opacity: 0;
+    }
+
     .hero-logo {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(3.5rem, 10vw, 6rem);
@@ -214,8 +275,7 @@
       letter-spacing: -1px;
       color: var(--gold);
       line-height: 1.1;
-      opacity: 0;
-      animation: fadeIn 1.2s ease forwards;
+      text-shadow: 0 0 80px rgba(201, 168, 76, 0.25);
     }
 
     .hero-sub {
@@ -226,8 +286,6 @@
       text-transform: uppercase;
       color: var(--text-secondary);
       margin-top: 12px;
-      opacity: 0;
-      animation: slideUp 0.9s ease 0.4s forwards;
     }
 
     .hero-tagline {
@@ -237,8 +295,6 @@
       font-weight: 400;
       color: var(--text-primary);
       margin-top: 28px;
-      opacity: 0;
-      animation: slideUp 0.9s ease 0.65s forwards;
     }
 
     .hero-cta {
@@ -253,14 +309,30 @@
       border: 1px solid var(--gold);
       background: transparent;
       cursor: pointer;
-      transition: background 0.3s, color 0.3s, box-shadow 0.3s;
-      opacity: 0;
-      animation: slideUp 0.9s ease 0.9s forwards;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.4s, box-shadow 0.4s, border-color 0.4s;
+    }
+
+    .hero-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: -1;
     }
 
     .hero-cta:hover {
-      background: rgba(201, 168, 76, 0.1);
-      box-shadow: 0 0 24px rgba(201, 168, 76, 0.2);
+      color: var(--bg-primary);
+      border-color: var(--gold-light);
+      box-shadow: 0 0 40px rgba(201, 168, 76, 0.35);
+    }
+
+    .hero-cta:hover::before {
+      transform: scaleX(1);
     }
 
     .scroll-indicator {
@@ -375,6 +447,23 @@
       width: 64px;
       height: 1px;
       background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .section-title.in-view::after {
+      transform: scaleX(1);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(48px);
+    }
+
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.96);
     }
 
     /* ——— Vehicles ——— */
@@ -394,42 +483,51 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       overflow: hidden;
-      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
       opacity: 0;
-      transform: translateY(32px);
+      transform: translateY(40px);
+      transform-style: preserve-3d;
+      transition: border-color 0.4s, box-shadow 0.4s;
     }
 
     .vehicle-card.visible {
       opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.7s ease, transform 0.7s ease, border-color var(--transition), box-shadow var(--transition);
     }
 
-    .vehicle-card:hover {
-      transform: translateY(-4px);
+    .vehicle-card.is-hover {
       border-color: var(--gold);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(201, 168, 76, 0.3);
-    }
-
-    .vehicle-card.visible:hover {
-      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), 0 0 30px rgba(201, 168, 76, 0.12);
     }
 
     .vehicle-image-wrap {
       overflow: hidden;
       aspect-ratio: 16 / 10;
       background: var(--bg-secondary);
+      position: relative;
+    }
+
+    .vehicle-image-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.08) 50%, transparent 60%);
+      transform: translateX(-120%);
+      transition: transform 0.7s ease;
+      pointer-events: none;
+    }
+
+    .vehicle-card.is-hover .vehicle-image-wrap::after {
+      transform: translateX(120%);
     }
 
     .vehicle-image-wrap img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.6s ease;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    .vehicle-card:hover .vehicle-image-wrap img {
-      transform: scale(1.05);
+    .vehicle-card.is-hover .vehicle-image-wrap img {
+      transform: scale(1.08);
     }
 
     .vehicle-body {
@@ -458,16 +556,28 @@
     }
 
     .vehicle-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       font-size: 12px;
       font-weight: 500;
       letter-spacing: 1px;
       color: var(--gold);
-      transition: color 0.3s, letter-spacing 0.3s;
+      transition: color 0.3s, gap 0.3s;
+    }
+
+    .vehicle-link::after {
+      content: '→';
+      transition: transform 0.3s;
     }
 
     .vehicle-link:hover {
       color: var(--gold-light);
-      letter-spacing: 2px;
+      gap: 14px;
+    }
+
+    .vehicle-link:hover::after {
+      transform: translateX(4px);
     }
 
     /* ——— About ——— */
@@ -523,12 +633,18 @@
       max-height: 560px;
       overflow: hidden;
       border: 1px solid var(--border);
+      will-change: transform;
     }
 
     .about-visual img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+
+    .about-visual:hover img {
+      transform: scale(1.04);
     }
 
     .about-badge {
@@ -583,23 +699,60 @@
       overflow: hidden;
       border: 1px solid var(--border);
       position: relative;
-      transition: border-color 0.3s, box-shadow 0.3s;
+      transition: border-color 0.4s, box-shadow 0.4s;
+    }
+
+    .ig-tile::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 10, 0.5);
+      opacity: 0;
+      transition: opacity 0.4s;
+      z-index: 1;
+    }
+
+    .ig-tile::after {
+      content: 'Instagram';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.4s, transform 0.4s;
+      z-index: 2;
     }
 
     .ig-tile:hover {
       border-color: var(--gold);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(201, 168, 76, 0.15);
+    }
+
+    .ig-tile:hover::before {
+      opacity: 1;
+    }
+
+    .ig-tile:hover::after {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .ig-tile img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.5s ease;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     .ig-tile:hover img {
-      transform: scale(1.08);
+      transform: scale(1.1);
     }
 
     .ig-tile:nth-child(1) {
@@ -718,6 +871,18 @@
       min-height: 360px;
       border: 1px solid var(--border);
       overflow: hidden;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s, transform 0.8s, border-color 0.3s;
+    }
+
+    .map-wrap.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .map-wrap:hover {
+      border-color: rgba(201, 168, 76, 0.35);
     }
 
     .map-wrap iframe {
@@ -850,8 +1015,16 @@
         transition-duration: 0.01ms !important;
       }
 
-      html {
-        scroll-behavior: auto;
+      .hero-video {
+        display: none;
+      }
+
+      .reveal,
+      .reveal-scale,
+      .vehicle-card,
+      .map-wrap {
+        opacity: 1 !important;
+        transform: none !important;
       }
     }
   </style>
@@ -878,9 +1051,15 @@
   </nav>
 
   <section class="hero" id="hero">
-    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-media" id="heroMedia" aria-hidden="true">
+      <div class="hero-media-fallback"></div>
+      <video class="hero-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1920&q=80">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-sports-car-driving-on-the-highway-42051-large.mp4" type="video/mp4">
+      </video>
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-blur-orb" aria-hidden="true"></div>
     <div class="hero-grain" aria-hidden="true"></div>
-    <div class="hero-particles" aria-hidden="true"></div>
     <div class="hero-content">
       <h1 class="hero-logo">İNCİ</h1>
       <p class="hero-sub">Otomotiv Kayseri</p>
@@ -912,7 +1091,7 @@
   </div>
 
   <section class="vehicles" id="araclar">
-    <div class="section-header">
+    <div class="section-header reveal">
       <h2 class="section-title">Öne Çıkan Araçlar</h2>
     </div>
     <div class="vehicles-grid" id="vehiclesGrid">
@@ -965,7 +1144,7 @@
 
   <section class="about" id="hakkimizda">
     <div class="about-grid">
-      <div class="about-text">
+      <div class="about-text reveal">
         <span class="about-quote" aria-hidden="true">"</span>
         <h2 class="about-heading">Bu Şehrin Markası</h2>
         <div class="about-body">
@@ -974,7 +1153,7 @@
           <p>Premium Galeri deneyimi — sıradan bir 2.el sitesi değil, bir marka hikayesi.</p>
         </div>
       </div>
-      <div class="about-visual">
+      <div class="about-visual reveal-scale" id="aboutVisual">
         <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80" alt="İNCİ Otomotiv showroom" loading="lazy" width="800" height="1000">
         <div class="about-badge">
           <span>2. elde 1. İNCİ</span>
@@ -984,13 +1163,13 @@
   </section>
 
   <section class="instagram" id="instagram">
-    <div class="instagram-header">
+    <div class="instagram-header reveal">
       <div>
         <h2 class="section-title">@2.elde1.inci</h2>
         <p class="instagram-sub">614K Takipçi · Günlük içerik ve satış hikayeleri</p>
       </div>
     </div>
-    <div class="instagram-masonry">
+    <div class="instagram-masonry reveal-scale" id="igGrid">
       <a href="https://www.instagram.com/p/DXpBVMHiPmW/" class="ig-tile" target="_blank" rel="noopener" aria-label="Instagram gönderisi"><img src="assets/instagram/post-1.jpg" alt="2.elde1.inci Instagram" loading="lazy" width="640" height="640"></a>
       <a href="https://www.instagram.com/p/DPqTwApCMBf/" class="ig-tile" target="_blank" rel="noopener" aria-label="Instagram gönderisi"><img src="assets/instagram/post-2.jpg" alt="2.elde1.inci Instagram" loading="lazy" width="640" height="640"></a>
       <a href="https://www.instagram.com/p/DOS-XIGiPrt/" class="ig-tile" target="_blank" rel="noopener" aria-label="Instagram gönderisi"><img src="assets/instagram/post-3.jpg" alt="2.elde1.inci Instagram" loading="lazy" width="640" height="640"></a>
@@ -1004,11 +1183,11 @@
   </section>
 
   <section class="contact" id="iletisim">
-    <div class="section-header">
+    <div class="section-header reveal">
       <h2 class="section-title">İletişim</h2>
     </div>
     <div class="contact-grid">
-      <div class="contact-info">
+      <div class="contact-info reveal">
         <ul class="contact-list">
           <li>
             <span class="contact-icon" aria-hidden="true">📞</span>
@@ -1029,7 +1208,7 @@
         </ul>
         <a href="https://inciotomotivkayseri.sahibinden.com" class="contact-cta" target="_blank" rel="noopener">Sahibinden'de Tüm İlanlarımız →</a>
       </div>
-      <div class="map-wrap">
+      <div class="map-wrap" id="mapWrap">
         <iframe
           title="İNCİ Otomotiv Kayseri konum"
           src="https://maps.google.com/maps?q=Y%C4%B1ld%C4%B1zevler+Mah.+320.+Sok,+Kayseri,+38125&t=&z=15&ie=UTF8&iwloc=&output=embed"
@@ -1046,8 +1225,12 @@
     <p class="footer-brand">Bu şehrin markası İNCİ</p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script>
     (function () {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const nav = document.getElementById('nav');
       const navToggle = document.getElementById('navToggle');
       const navOverlay = document.getElementById('navOverlay');
@@ -1074,17 +1257,30 @@
         });
       });
 
+      document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+        anchor.addEventListener('click', function (e) {
+          const id = anchor.getAttribute('href');
+          if (!id || id === '#') return;
+          const target = document.querySelector(id);
+          if (!target) return;
+          e.preventDefault();
+          if (window.lenis) {
+            window.lenis.scrollTo(target, { offset: -72, duration: 1.4 });
+          } else {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
       const statNumbers = document.querySelectorAll('.stat-number');
       let statsAnimated = false;
 
       function animateValue(el, target, suffix, duration) {
         const start = performance.now();
-        const isDecimal = target % 1 !== 0;
         function step(now) {
           const progress = Math.min((now - start) / duration, 1);
           const eased = 1 - Math.pow(1 - progress, 3);
-          const current = Math.floor(eased * target);
-          el.textContent = current + suffix;
+          el.textContent = Math.floor(eased * target) + suffix;
           if (progress < 1) requestAnimationFrame(step);
           else el.textContent = target + suffix;
         }
@@ -1096,27 +1292,147 @@
           if (!entry.isIntersecting || statsAnimated) return;
           statsAnimated = true;
           statNumbers.forEach(function (el) {
-            const target = parseInt(el.dataset.target, 10);
-            const suffix = el.dataset.suffix || '';
-            animateValue(el, target, suffix, 1800);
+            animateValue(el, parseInt(el.dataset.target, 10), el.dataset.suffix || '', 1800);
           });
         });
       }, { threshold: 0.4 });
       statsObserver.observe(document.getElementById('stats'));
 
-      const vehicleCards = document.querySelectorAll('.vehicle-card');
-      const cardObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            cardObserver.unobserve(entry.target);
-          }
+      if (prefersReduced) {
+        document.querySelectorAll('.vehicle-card').forEach(function (c) { c.classList.add('visible'); });
+        document.querySelectorAll('.section-title').forEach(function (t) { t.classList.add('in-view'); });
+        var map = document.getElementById('mapWrap');
+        if (map) map.classList.add('in-view');
+        document.querySelectorAll('.reveal, .reveal-scale').forEach(function (el) {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
         });
-      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        return;
+      }
 
+      gsap.registerPlugin(ScrollTrigger);
+
+      var lenis = new Lenis({ duration: 1.2, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }, smoothWheel: true });
+      window.lenis = lenis;
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+
+      gsap.set('.hero-logo', { y: 40 });
+      gsap.set('.hero-sub, .hero-tagline, .hero-cta', { y: 24 });
+
+      gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.15 })
+        .fromTo('.hero-logo', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.1 })
+        .fromTo('.hero-sub', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.85 }, '-=0.65')
+        .fromTo('.hero-tagline', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.85 }, '-=0.55')
+        .fromTo('.hero-cta', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.85 }, '-=0.5')
+        .to('.scroll-indicator', { opacity: 1, duration: 0.7 }, '-=0.35');
+
+      gsap.to('.hero-media', {
+        yPercent: 18,
+        ease: 'none',
+        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+      });
+
+      gsap.to('.hero-video', {
+        scale: 1.15,
+        ease: 'none',
+        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+      });
+
+      gsap.utils.toArray('.reveal').forEach(function (el) {
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+        });
+      });
+
+      gsap.utils.toArray('.reveal-scale').forEach(function (el) {
+        gsap.to(el, {
+          opacity: 1,
+          scale: 1,
+          duration: 1.1,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+        });
+      });
+
+      document.querySelectorAll('.section-title').forEach(function (title) {
+        ScrollTrigger.create({
+          trigger: title,
+          start: 'top 85%',
+          onEnter: function () { title.classList.add('in-view'); },
+          once: true
+        });
+      });
+
+      gsap.from('.stat-item', {
+        opacity: 0,
+        y: 24,
+        duration: 0.7,
+        stagger: 0.12,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: '#stats', start: 'top 80%', toggleActions: 'play none none none' }
+      });
+
+      var vehicleCards = document.querySelectorAll('.vehicle-card');
       vehicleCards.forEach(function (card, i) {
-        card.style.transitionDelay = (i * 0.12) + 's';
-        cardObserver.observe(card);
+        gsap.to(card, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: i * 0.1,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: card, start: 'top 92%', toggleActions: 'play none none none' },
+          onComplete: function () { card.classList.add('visible'); }
+        });
+      });
+
+      var aboutVisual = document.getElementById('aboutVisual');
+      if (aboutVisual) {
+        gsap.to(aboutVisual, {
+          y: -30,
+          ease: 'none',
+          scrollTrigger: { trigger: '#hakkimizda', start: 'top bottom', end: 'bottom top', scrub: true }
+        });
+      }
+
+      ScrollTrigger.create({
+        trigger: '#mapWrap',
+        start: 'top 88%',
+        onEnter: function () { document.getElementById('mapWrap').classList.add('in-view'); },
+        once: true
+      });
+
+      var canTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (canTilt) {
+        vehicleCards.forEach(function (card) {
+          card.addEventListener('mouseenter', function () { card.classList.add('is-hover'); });
+          card.addEventListener('mouseleave', function () {
+            card.classList.remove('is-hover');
+            card.style.transform = '';
+          });
+          card.addEventListener('mousemove', function (e) {
+            var rect = card.getBoundingClientRect();
+            var x = (e.clientX - rect.left) / rect.width - 0.5;
+            var y = (e.clientY - rect.top) / rect.height - 0.5;
+            card.style.transform = 'perspective(900px) rotateY(' + (x * 7) + 'deg) rotateX(' + (-y * 7) + 'deg) translateY(-6px)';
+          });
+        });
+      }
+
+      var video = document.querySelector('.hero-video');
+      if (video) {
+        video.play().catch(function () {
+          video.style.display = 'none';
+        });
+      }
+
+      window.addEventListener('load', function () {
+        ScrollTrigger.refresh();
       });
     })();
   </script>
